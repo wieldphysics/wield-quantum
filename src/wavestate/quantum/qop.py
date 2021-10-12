@@ -5,7 +5,7 @@ import numpy as np
 from scipy.linalg import expm
 #asavefig.formats.png.use = True
 import collections
-from declarative.bunch import FrozenBunch
+from wavestate.bunch import FrozenBunch
 import itertools
 
 import copy

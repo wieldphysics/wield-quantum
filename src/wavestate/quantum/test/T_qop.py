@@ -2,7 +2,7 @@
 """
 """
 import numpy as np
-from declarative.bunch import FrozenBunch
+from wavestate.bunch import FrozenBunch
 
 #asavefig.formats.png.use = True
 import itertools

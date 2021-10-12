@@ -2,7 +2,7 @@
 """
 """
 import numpy as np
-from declarative.bunch import FrozenBunch
+from wavestate.bunch import FrozenBunch
 
 from . import qop
 from . import fock
