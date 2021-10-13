@@ -9,19 +9,19 @@ import declarative
 from numpy.polynomial.hermite import hermval
 from scipy.special import eval_genlaguerre
 
-from transient.matrix import matrix_stack, matrix_stack_id
-from transient.utilities.mpl import (
+from wavestate.utilities.np import matrix_stack, matrix_stack_id
+from wavestate.utilities.mpl import (
     #generate_stacked_plot_ax,
     mplfigB, asavefig,
 )
 #asavefig.formats.png.use = True
 
-from transient.pytest import (  # noqa: F401
+from wavestate.pytest import (  # noqa: F401
     ic, tpath_join, pprint, plot
 )
 
 from scipy.linalg import expm
-from transient.quantum import fock
+from wavestate.quantum import fock
 
 c_m_s = 299792458
 

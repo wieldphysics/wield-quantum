@@ -7,11 +7,11 @@ from wavestate.bunch import FrozenBunch
 #asavefig.formats.png.use = True
 import itertools
 
-from transient.pytest import (  # noqa: F401
+from wavestate.pytest import (  # noqa: F401
     ic, tpath_join, pprint, plot
 )
 
-from transient.quantum import qop
+from wavestate.quantum import qop
 
 pauli_x = np.array([[0, 1], [1, 0]])
 pauli_y = np.array([[0, -1j], [1j, 0]])

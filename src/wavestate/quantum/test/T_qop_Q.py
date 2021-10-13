@@ -3,16 +3,16 @@
 """
 import numpy as np
 
-from transient.utilities.mpl import (  # noqa
+from wavestate.utilities.mpl import (  # noqa
     #generate_stacked_plot_ax,
     mplfigB, asavefig,
 )
 
-from transient.pytest import (  # noqa: F401
+from wavestate.pytest import (  # noqa: F401
     ic, tpath_join, pprint, plot
 )
 
-from transient.quantum import qop, qop_fock, qop_qubit, fock  # noqa
+from wavestate.quantum import qop, qop_fock, qop_qubit, fock  # noqa
 
 
 def T_qop_fockdisp(tpath_join, pprint, plot):
