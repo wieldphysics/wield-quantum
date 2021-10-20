@@ -10,7 +10,7 @@
 import sys
 import numpy as np
 import math
-import declarative
+from wavestate import declarative
 
 from numpy.polynomial.hermite import hermval
 from scipy.special import eval_genlaguerre
