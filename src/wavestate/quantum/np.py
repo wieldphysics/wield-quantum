@@ -11,7 +11,7 @@
 import numpy as np
 
 
-def matrix_stack(arr, dtype = None, **kwargs):
+def matrix_stack(arr, dtype=None, **kwargs):
     """
     This routing allows one to construct 2D matrices out of heterogeneously
     shaped inputs. it should be called with a list, of list of np.array objects
@@ -38,13 +38,13 @@ def matrix_stack(arr, dtype = None, **kwargs):
     vals = []
     dtypes = []
     for r_idx, row in enumerate(arr):
-        assert(len(row) == Ncols)
+        assert len(row) == Ncols
         for c_idx, kdm in enumerate(row):
             kdm = np.asarray(kdm)
             vals.append(kdm)
             dtypes.append(kdm.dtype)
 
-    #dt = np.find_common_type(dtypes, ())
+    # dt = np.find_common_type(dtypes, ())
     if dtype is None:
         dtype = np.result_type(*vals)
     bc = broadcast_deep(vals)
@@ -52,8 +52,8 @@ def matrix_stack(arr, dtype = None, **kwargs):
     if len(bc.shape) == 0:
         return np.array(arr)
 
-    Marr = np.empty(bc.shape + (Nrows, Ncols), dtype = dtype, **kwargs)
-    #print(Marr.shape)
+    Marr = np.empty(bc.shape + (Nrows, Ncols), dtype=dtype, **kwargs)
+    # print(Marr.shape)
 
     for r_idx, row in enumerate(arr):
         for c_idx, kdm in enumerate(row):
@@ -70,7 +70,7 @@ def broadcast_deep(mlist):
     """
     nlist = []
     for idx in range((len(mlist) + 31) // 32):
-        bc = np.broadcast(*mlist[idx * 32 : (idx+1)*32])
+        bc = np.broadcast(*mlist[idx * 32 : (idx + 1) * 32])
         nlist.append(bc)
 
     if len(nlist) == 1:
@@ -80,11 +80,11 @@ def broadcast_deep(mlist):
     while len(nlist) > 1:
         blist = [np.broadcast_to(nd, bc.shape) for bc in nlist if bc.shape != ()]
         if not blist:
-            #then they must all be null shapes
+            # then they must all be null shapes
             return nlist[0]
         nlist = []
         for idx in range((len(blist) + 31) // 32):
-            bc = np.broadcast(*blist[idx * 32 : (idx+1)*32])
+            bc = np.broadcast(*blist[idx * 32 : (idx + 1) * 32])
             nlist.append(bc)
     return nlist[0]
 
@@ -103,11 +103,11 @@ def broadcast_shapes(shapes):
     while len(nlist) > 1:
         blist = [np.broadcast_to(nd, bc.shape) for bc in nlist if bc.shape != ()]
         if not blist:
-            #then they must all be null shapes
+            # then they must all be null shapes
             return nlist[0]
         nlist = []
         for idx in range((len(blist) + 31) // 32):
-            bc = np.broadcast(*blist[idx * 32 : (idx+1)*32])
+            bc = np.broadcast(*blist[idx * 32 : (idx + 1) * 32])
             nlist.append(bc)
     return nlist[0].shape
 
