@@ -24,7 +24,7 @@ from wavestate.utilities.mpl import (
 
 # asavefig.formats.png.use = True
 
-from wavestate.pytest import ic, tpath_join, pprint, plot  # noqa: F401
+from wavestate.pytest import tpath_join, dprint, plot  # noqa: F401
 
 from scipy.linalg import expm
 from wavestate.quantum import fock
@@ -32,7 +32,7 @@ from wavestate.quantum import fock
 c_m_s = 299792458
 
 
-def T_fock(tpath_join, pprint, plot):
+def T_fock(tpath_join, dprint, plot):
     N = 100
     q = fock.linspace_clopen(N, N ** 2 / 2)
     psi0 = fock.q_fock(n=0, q=q)
@@ -41,8 +41,8 @@ def T_fock(tpath_join, pprint, plot):
     psi3 = fock.q_fock(n=8, q=q)
     dq = q[1] - q[0]
 
-    # pprint(len(q), len(q)//2, q[len(q)//2-1], q[len(q)//2], q[len(q)//2+1])
-    # pprint(q[0], q[-1])
+    # dprint(len(q), len(q)//2, q[len(q)//2-1], q[len(q)//2], q[len(q)//2+1])
+    # dprint(q[0], q[-1])
 
     axB = mplfigB(Nrows=3)
 
@@ -51,7 +51,7 @@ def T_fock(tpath_join, pprint, plot):
     # psi1 = np.fft.ifftshift(psi1)
     # psi2 = np.fft.ifftshift(psi2)
     # psi3 = np.fft.ifftshift(psi3)
-    # pprint(psi0[0], psi0[-1])
+    # dprint(psi0[0], psi0[-1])
 
     # axB_ = mplfigB()
     # axB_.ax0.plot(psi0[:len(psi0)//2-1:-1] - psi0[:len(psi0)//2])
@@ -104,7 +104,7 @@ def T_fock(tpath_join, pprint, plot):
     return
 
 
-def T_wigner(tpath_join, pprint, plot):
+def T_wigner(tpath_join, dprint, plot):
     q = fock.linspace_clopen(30, 1024)
     psi0 = fock.q_fock(n=2, q=q)
     for method in ["full", "half", "hermitian"]:
@@ -120,7 +120,7 @@ def T_wigner(tpath_join, pprint, plot):
             vmax=minmax,
             interpolation="nearest",
         )
-        pprint(minmax)
+        dprint(minmax)
         axB.ax0.grid(b=False)
         # axB.ax0.set_xlim(-10, 10)
         # axB.ax0.set_ylim(-10, 10)
@@ -128,7 +128,7 @@ def T_wigner(tpath_join, pprint, plot):
     return
 
 
-def T_fockdisp(tpath_join, pprint, plot):
+def T_fockdisp(tpath_join, dprint, plot):
     n = 50
     q = fock.linspace_clopen(10, 2048)
     dq = q[1] - q[0]
@@ -153,11 +153,11 @@ def T_fockdisp(tpath_join, pprint, plot):
     aM = fock.lower_fock(n=n)
     plot_psi(adj(aM) @ psi, "raised")
 
-    pprint("Lowering Operator")
-    pprint(aM)
-    # pprint(adj(aM))
-    pprint("Number Operator")
-    pprint(adj(aM) @ aM)
+    dprint("Lowering Operator")
+    dprint(aM)
+    # dprint(adj(aM))
+    dprint("Number Operator")
+    dprint(adj(aM) @ aM)
 
     # def expm(A):
     #    sq = A @ A
@@ -165,21 +165,21 @@ def T_fockdisp(tpath_join, pprint, plot):
 
     alpha = np.array(2)
     disp = expm(alpha.conj() * adj(aM) - alpha * aM)
-    pprint(disp @ psi)
+    dprint(disp @ psi)
 
     plot_psi(disp @ psi, "disp", line=abs(alpha) * np.pi / 2)
 
     z = np.array(0.5)
     aM2 = aM @ aM
-    pprint(aM2)
+    dprint(aM2)
     sqz = expm(z.conj() * aM2 - z * adj(aM2))
-    pprint(sqz @ psi)
+    dprint(sqz @ psi)
 
     plot_psi(sqz @ psi, "sqz")
     return
 
 
-def T_focksqz(tpath_join, pprint, plot):
+def T_focksqz(tpath_join, dprint, plot):
     n = 100
     q = fock.linspace_clopen(50, 2048)
     rho = np.zeros((n, n), dtype=complex)
@@ -201,7 +201,7 @@ def T_focksqz(tpath_join, pprint, plot):
             vmax=minmax,
             interpolation="nearest",
         )
-        pprint(minmax)
+        dprint(minmax)
         axB.ax0.grid(b=False)
         axB.ax0.set_xlim(-10, 10)
         axB.ax0.set_ylim(-10, 10)
@@ -214,7 +214,7 @@ def T_focksqz(tpath_join, pprint, plot):
     aM = fock.lower_fock(n=n)
     plot_rho_wigner(adj(aM) @ rho @ aM, "wigner_raised")
 
-    pprint(aM)
+    dprint(aM)
     alpha = np.array(0.5)
     disp = expm(alpha.conj() * adj(aM) - alpha * aM)
     disp = disp @ disp

@@ -15,12 +15,12 @@ from wavestate.utilities.mpl import (  # noqa
     asavefig,
 )
 
-from wavestate.pytest import ic, tpath_join, pprint, plot  # noqa: F401
+from wavestate.pytest import tpath_join, dprint, plot  # noqa: F401
 
 from wavestate.quantum import qop, qop_fock, qop_qubit, fock  # noqa
 
 
-def T_sqz_wigner_loss(tpath_join, pprint, plot):
+def T_sqz_wigner_loss(tpath_join, dprint, plot):
     L = 0.5
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=30)
@@ -35,10 +35,10 @@ def T_sqz_wigner_loss(tpath_join, pprint, plot):
     op_b = qop_fock.op_ladder_dn("b", bN=bF)
 
     op_bs = (0.5 * (op_a @ op_b.A - op_a.A @ op_b)).expm()
-    pprint("op_bs", op_bs.mat)
-    pprint("op_bs_index", op_bs.index_order)
+    dprint("op_bs", op_bs.mat)
+    dprint("op_bs_index", op_bs.index_order)
     op_bs.segments_set([("b",), ("a",)])
-    pprint("op_bs_index", op_bs.index_order)
+    dprint("op_bs_index", op_bs.index_order)
 
     dbs = [-3, -6, -9]
     axBall = mplfigB(Nrows=len(dbs), Ncols=2)
@@ -53,9 +53,9 @@ def T_sqz_wigner_loss(tpath_join, pprint, plot):
         rho_sqz = psi_sqz @ psi_sqz.A
         rho_sqz = rho_sqz.trace_other("a")
 
-        # pprint(len(rho_sqz.space_basis), rho_sqz.space_basis[0].bC.basis, rho_sqz.space_basis[0].bR.basis)
+        # dprint(len(rho_sqz.space_basis), rho_sqz.space_basis[0].bC.basis, rho_sqz.space_basis[0].bR.basis)
         rho_sqz = F2Q @ rho_sqz @ F2Q.A
-        # pprint(len(rho_sqz.space_basis), rho_sqz.space_basis[0].bC.basis, rho_sqz.space_basis[0].bR.basis)
+        # dprint(len(rho_sqz.space_basis), rho_sqz.space_basis[0].bC.basis, rho_sqz.space_basis[0].bR.basis)
 
         axB = mplfigB(Ncols=2)
         plot_wigner(axB.ax0_0, "a", rho=rho_sqz, bQ=bQ, lims=10)
@@ -70,7 +70,7 @@ def T_sqz_wigner_loss(tpath_join, pprint, plot):
     return
 
 
-def T_gkp_wigner_loss(tpath_join, pprint, plot):
+def T_gkp_wigner_loss(tpath_join, dprint, plot):
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=300)
     F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
@@ -80,7 +80,7 @@ def T_gkp_wigner_loss(tpath_join, pprint, plot):
     for idx, iD in enumerate(iDs):
         psi_gkp = F2Q.A @ qop_fock.psi_gkp("field", bN=bQ, D=1 / iD, mu=0)
 
-        pprint("iD", iD)
+        dprint("iD", iD)
         qop_fock.op_qp("field", bN=bF)
 
         axB = mplfigB(Ncols=2)

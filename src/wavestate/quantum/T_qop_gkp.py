@@ -1,0 +1,354 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: © 2021 Massachusetts Institute of Technology.
+# SPDX-FileCopyrightText: © 2021 Lee McCuller <mcculler@mit.edu>
+# NOTICE: authors should document their contributions in concisely in NOTICE
+# with details inline in source files, comments, and docstrings.
+"""
+"""
+import numpy as np
+
+from wavestate.utilities.mpl import (  # noqa
+    # generate_stacked_plot_ax,
+    mplfigB,
+    asavefig,
+)
+
+from wavestate.pytest import tpath_join, dprint, plot  # noqa: F401
+
+from wavestate.quantum import qop, qop_fock, qop_qubit, fock  # noqa
+
+
+def T_sqz_wigner(tpath_join, dprint, plot):
+    D = 1 / 4
+    bQ = qop_fock.basis_Q(N=2 * 1024)
+    bF = qop_fock.basis_Fock(N=300)
+    F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
+
+    psi = F2Q.A @ qop_fock.psi_gkp("field", bN=bQ, D=D, mu=0)
+    psi = qop_fock.psi_vacuum("field", bN=bF)
+
+    op_a = qop_fock.op_ladder_dn("field", bN=bF)
+
+    dbs = [-3, -6, -9, -10]
+    axBall = mplfigB(Nrows=len(dbs), Ncols=2)
+    for idx, db in enumerate(dbs):
+        z = np.log(10 ** (db / 10.0)) / 2
+        dprint(db)
+
+        sqz_gen = z * op_a @ op_a
+        dprint("sqz:-----", sqz_gen.mat.real)
+        dprint("sqz:-----", (sqz_gen.A).mat.real)
+        dprint("sqz:-----", (sqz_gen.mat - (sqz_gen.A).mat).real)
+        sqz_gen = sqz_gen - (sqz_gen.A)
+        dprint("sqz:-----", sqz_gen.mat)
+        sqz = sqz_gen.expm()
+        psi_sqz = sqz @ psi
+
+        qop_fock.op_qp("field", bN=bF)
+
+        axB = mplfigB(Ncols=2)
+        plot_wigner(axB.ax0_0, "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=10)
+        axB.ax0_1.stem(
+            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
+        )
+        axB.ax0_1.set_xscale("log")
+        axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
+        plot_wigner(
+            axBall["ax{}_0".format(idx)], "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=10
+        )
+        axall = axBall["ax{}_1".format(idx)]
+        axall.stem(
+            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
+        )
+        axall.set_xscale("log")
+    axBall.save(tpath_join("wigner_sqz".format(-db)))
+    return
+
+
+def T_sqz_disp(tpath_join, dprint, plot):
+    D = 1 / 4
+    bQ = qop_fock.basis_Q(N=2 * 1024)
+    bF = qop_fock.basis_Fock(N=300)
+    F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
+
+    psi = F2Q.A @ qop_fock.psi_gkp("field", bN=bQ, D=D, mu=0)
+    psi = qop_fock.psi_vacuum("field", bN=bF)
+
+    op_a = qop_fock.op_ladder_dn("field", bN=bF)
+
+    dbs = [-3, -6, -9, -10]
+    axBall = mplfigB(Nrows=len(dbs), Ncols=2)
+    for idx, db in enumerate(dbs):
+        z = np.log(10 ** (db / 10.0)) / 2
+        dprint(db)
+
+        sqz_gen = z * op_a @ op_a
+        dprint("sqz:-----", sqz_gen.mat.real)
+        dprint("sqz:-----", (sqz_gen.A).mat.real)
+        dprint("sqz:-----", (sqz_gen.mat - (sqz_gen.A).mat).real)
+        sqz_gen = sqz_gen - (sqz_gen.A)
+        dprint("sqz:-----", sqz_gen.mat)
+        sqz = sqz_gen.expm()
+        psi_sqz = sqz @ psi
+
+        qop_fock.op_qp("field", bN=bF)
+
+        axB = mplfigB(Ncols=2)
+        plot_wigner(axB.ax0_0, "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=10)
+        axB.ax0_1.stem(
+            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
+        )
+        axB.ax0_1.set_xscale("log")
+        axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
+        plot_wigner(
+            axBall["ax{}_0".format(idx)], "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=10
+        )
+        axall = axBall["ax{}_1".format(idx)]
+        axall.stem(
+            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
+        )
+        axall.set_xscale("log")
+    axBall.save(tpath_join("wigner_sqz".format(-db)))
+    return
+
+
+def T_sqz_wow(tpath_join, dprint, plot):
+    bQ = qop_fock.basis_Q(N=4 * 1024)
+    bF = qop_fock.basis_Fock(N=300)
+    F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
+
+    psi = qop_fock.psi_vacuum("field", bN=bF)
+
+    op_a = qop_fock.op_ladder_dn("field", bN=bF)
+
+    import scipy.stats
+
+    db = -10
+    disps = [0, 2 * 0.156]
+    axBall = mplfigB(Nrows=len(disps), Ncols=2)
+    for idx, disp in enumerate(disps):
+        z = -np.log(10 ** (db / 20.0)) / 2
+        dprint(db)
+
+        sqz_gen = z * op_a @ op_a
+        sqz_gen = sqz_gen - (sqz_gen.A)
+        sqz = sqz_gen.expm()
+        psi_sqz = sqz @ psi
+        alpha = np.array(disp)
+        D_op = (alpha.conj() * op_a.A - alpha * op_a).expm()
+        psi_sqz = D_op @ psi_sqz
+
+        qop_fock.op_qp("field", bN=bF)
+
+        axB = mplfigB(Ncols=2)
+        plot_wigner(axB.ax0_0, "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=4)
+        pdf_Q = abs((F2Q @ psi_sqz).mat[:, 0]) ** 2
+        cdf_Q = np.cumsum(pdf_Q[::-1])[::-1]
+        axB.ax0_1.plot(bQ.q, pdf_Q)
+        axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
+        plot_wigner(
+            axBall["ax{}_0".format(idx)], "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=4
+        )
+        axall = axBall["ax{}_1".format(idx)]
+        axall2 = axall.twinx()
+        axall.plot(bQ.q, cdf_Q)
+        axall2.plot(bQ.q, pdf_Q, color="C1", ls="--")
+        axall.set_ylabel("CDF")
+        axall2.set_ylabel("PDF")
+        axall.set_xlabel("q quadrature")
+        thresh = scipy.stats.norm.cdf(-2)
+        idx = np.searchsorted(cdf_Q[::-1], thresh)
+        Q = bQ.q[::-1][idx]
+        axall.axvline(Q, color="red")
+        dprint("Qsigma", Q / 2 ** 0.5)
+        axall.set_xlim(-1, 1)
+    axBall.save(tpath_join("wigner_sqz".format(-db)))
+    return
+
+
+def T_fock0_wow(tpath_join, dprint, plot):
+    bQ = qop_fock.basis_Q(N=2 * 1024)
+    bF = qop_fock.basis_Fock(N=100)
+    F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
+    from scipy.stats import binom
+
+    L = 0.1
+
+    op_a = qop_fock.op_ladder_dn("field", bN=bF)
+
+    n_fock = 0
+    disps = [0, 2 * 0.156]
+    axBall = mplfigB(Nrows=len(disps), Ncols=2)
+    for idx, disp in enumerate(disps):
+        psi = qop_fock.psi_fock("field", bN=bF, n_fock=n_fock)
+        P = binom.pmf(n_fock, n_fock, 1 - L)
+        rho = P * (psi @ psi.A)
+        for num in range(n_fock):
+            psi = qop_fock.psi_fock("field", bN=bF, n_fock=num)
+            P = binom.pmf(num, n_fock, 1 - L)
+            rho = rho + P * (psi @ psi.A)
+        alpha = np.array(disp)
+        D_op = (alpha.conj() * op_a.A - alpha * op_a).expm()
+        rho_disp = D_op @ rho @ D_op.A
+
+        axB = mplfigB(Ncols=2)
+        plot_wigner(axB.ax0_0, "field", psi=F2Q @ rho_disp @ F2Q.A, bQ=bQ, lims=4)
+        axB.ax0_1.stem(
+            np.diagonal(rho_disp.mat), markerfmt="C0,", use_line_collection=True
+        )
+        axB.ax0_1.set_xscale("log")
+        axB.save(tpath_join("wigner_disp_{:.1f}".format(disp).replace(".", "p")))
+        plot_wigner(
+            axBall["ax{}_0".format(idx)],
+            "field",
+            psi=F2Q @ rho_disp @ F2Q.A,
+            bQ=bQ,
+            lims=4,
+        )
+        axall = axBall["ax{}_1".format(idx)]
+        axall2 = axall.twinx()
+        diag = np.diagonal(rho_disp.mat)
+        cdf = np.cumsum(diag[::-1])[::-1]
+        axall2.stem(
+            diag,
+            markerfmt="C2,",
+            linefmt="C2-",
+            basefmt="Black",
+            use_line_collection=True,
+        )
+        steps = np.arange(len(cdf)) + 0.5
+        axall.step(steps, cdf)
+        axall.set_ylabel("CDF")
+        axall2.set_ylabel("PDF")
+        axall.set_xlabel("Photon number observed")
+        axall.axvspan(0, 0.6, alpha=0.2, color="black")
+        axall.set_xlim(0, 5)
+    axBall.save(tpath_join("wigner_disp"))
+    return
+
+
+def T_fock10_wow(tpath_join, dprint, plot):
+    bQ = qop_fock.basis_Q(N=2 * 1024)
+    bF = qop_fock.basis_Fock(N=100)
+    F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
+    from scipy.stats import binom
+
+    L = 0.1
+
+    op_a = qop_fock.op_ladder_dn("field", bN=bF)
+
+    n_fock = 10
+    disps = [0, 2 * 0.156]
+    axBall = mplfigB(Nrows=len(disps), Ncols=2)
+    for idx, disp in enumerate(disps):
+        psi = qop_fock.psi_fock("field", bN=bF, n_fock=n_fock)
+        P = binom.pmf(n_fock, n_fock, 1 - L)
+        rho = P * (psi @ psi.A)
+        for num in range(n_fock):
+            psi = qop_fock.psi_fock("field", bN=bF, n_fock=num)
+            P = binom.pmf(num, n_fock, 1 - L)
+            rho = rho + P * (psi @ psi.A)
+        alpha = np.array(disp)
+        D_op = (alpha.conj() * op_a.A - alpha * op_a).expm()
+        rho_disp = D_op @ rho @ D_op.A
+
+        axB = mplfigB(Ncols=2)
+        plot_wigner(axB.ax0_0, "field", psi=F2Q @ rho_disp @ F2Q.A, bQ=bQ, lims=6)
+        axB.ax0_1.stem(
+            np.diagonal(rho_disp.mat), markerfmt="C0,", use_line_collection=True
+        )
+        axB.ax0_1.set_xscale("log")
+        axB.save(tpath_join("wigner_disp_{:.1f}".format(disp).replace(".", "p")))
+        plot_wigner(
+            axBall["ax{}_0".format(idx)],
+            "field",
+            psi=F2Q @ rho_disp @ F2Q.A,
+            bQ=bQ,
+            lims=6,
+        )
+        axall = axBall["ax{}_1".format(idx)]
+        axall2 = axall.twinx()
+        diag = np.diagonal(rho_disp.mat)
+        cdf = np.cumsum(diag[::-1])[::-1]
+        axall2.stem(
+            diag,
+            markerfmt="C2,",
+            linefmt="C2-",
+            basefmt="Black",
+            use_line_collection=True,
+        )
+        steps = np.arange(len(cdf)) + 0.5
+        axall.step(steps, cdf)
+        axall.set_ylabel("CDF")
+        axall2.set_ylabel("PDF")
+        axall.set_xlabel("Photon number observed")
+        axall.axvspan(0, 10.6, alpha=0.2, color="black")
+        axall.set_xlim(0, 14)
+    axBall.save(tpath_join("wigner_disp"))
+    return
+
+
+def T_sqz_wigner_loss(tpath_join, dprint, plot):
+    L = 0.5
+    bQ = qop_fock.basis_Q(N=2 * 1024)
+    bF = qop_fock.basis_Fock(N=10)
+    F2Q = qop_fock.basis_change("a", bC=bF, bR=bQ)
+
+    bFx = qop_fock.basis_Fock(N=2)
+    psi_a = qop_fock.psi_vacuum("a", bN=bF)
+    psi_b = qop_fock.psi_vacuum("b", bN=bF)
+
+    op_a = qop_fock.op_ladder_dn("a", bN=bF)
+    op_b = qop_fock.op_ladder_dn("b", bN=bF)
+
+    op_bs = (0 ** 0.5 * (op_a @ op_b.A + op_a.A @ op_b)).expm()
+    dprint("op_bs", op_bs.space_map)
+
+    dbs = [
+        -3,
+    ]
+    axBall = mplfigB(Nrows=len(dbs), Ncols=2)
+    for idx, db in enumerate(dbs):
+        z = np.log(10 ** (db / 10.0)) / 2
+        dprint(db)
+
+        sqz_gen = z * op_a @ op_a
+        sqz_gen = sqz_gen - sqz_gen.A
+        sqz = sqz_gen.expm()
+        psi_sqz = psi_a @ psi_b
+        psi_sqz = sqz @ psi_sqz
+        rho_sqz = (psi_sqz @ psi_sqz.A).trace_other("a")
+        rho_sqz = F2Q @ rho_sqz @ F2Q.A
+
+        axB = mplfigB(Ncols=2)
+        plot_wigner(axB.ax0_0, "a", rho=rho_sqz, bQ=bQ, lims=10)
+        axB.ax0_1.stem(abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,")
+        axB.ax0_1.set_xscale("log")
+        axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
+        plot_wigner(axBall["ax{}_0".format(idx)], "a", rho=rho_sqz, bQ=bQ, lims=10)
+        axall = axBall["ax{}_1".format(idx)]
+        axall.stem(abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,")
+        axall.set_xscale("log")
+    axBall.save(tpath_join("wigner_sqz".format(-db)))
+    return
+
+
+def plot_wigner(ax, *args, **kwargs):
+    lims = kwargs.pop("lims", None)
+    w, q, p = qop_fock.qop2wigner(*args, **kwargs)
+    ax.set_aspect(1)
+    minmax = np.max(abs(w))
+    ax.imshow(
+        w,
+        extent=(q[0], q[-1], p[0], p[-1]),
+        cmap="PiYG",
+        vmin=-minmax,
+        vmax=minmax,
+        interpolation="nearest",
+    )
+    ax.grid(b=False)
+    if lims is not None:
+        ax.set_xlim(-lims, lims)
+        ax.set_ylim(-lims, lims)

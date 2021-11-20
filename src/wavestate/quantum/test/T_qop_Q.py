@@ -15,19 +15,19 @@ from wavestate.utilities.mpl import (  # noqa
     asavefig,
 )
 
-from wavestate.pytest import ic, tpath_join, pprint, plot  # noqa: F401
+from wavestate.pytest import tpath_join, dprint, plot  # noqa: F401
 
 from wavestate.quantum import qop, qop_fock, qop_qubit, fock  # noqa
 
 
-def T_qop_fockdisp(tpath_join, pprint, plot):
+def T_qop_fockdisp(tpath_join, dprint, plot):
     bF = qop_fock.basis_Fock(N=30)
     bQ = qop_fock.basis_Q(half_width=30, N=2048)
     psi = qop_fock.psi_vacuum("field", bN=bF)
-    pprint(psi.nR, psi.nC, psi.mat.shape)
+    dprint(psi.nR, psi.nC, psi.mat.shape)
 
     toQ = qop_fock.basis_change("field", bQ, bF)
-    pprint(toQ.nR, toQ.nC, toQ.mat.shape)
+    dprint(toQ.nR, toQ.nC, toQ.mat.shape)
 
     def plot_psi(psi, name=None, line=None):
         psi_q = toQ @ psi
@@ -53,21 +53,21 @@ def T_qop_fockdisp(tpath_join, pprint, plot):
     plot_psi(psi_disp, "disp", line=abs(alpha) * factor)
 
     opN = qop_fock.op_number("field", bN=bF)
-    pprint((psi_disp.A @ opN @ psi_disp).mat)
+    dprint((psi_disp.A @ opN @ psi_disp).mat)
 
     return
     # this tests SQZ
     z = np.array(0.5)
     aM2 = opA @ opA
-    pprint(aM2)
+    dprint(aM2)
     sqz = expm(z.conj() * aM2 - z * adj(aM2))
-    pprint(sqz @ psi)
+    dprint(sqz @ psi)
 
     plot_psi(sqz @ psi, "sqz")
     return
 
 
-def T_qop_fockdisp2(tpath_join, pprint, plot):
+def T_qop_fockdisp2(tpath_join, dprint, plot):
     bF = qop_fock.basis_Fock(N=50)
     opA = qop_fock.op_ladder_dn("field", bN=bF)
 
@@ -75,14 +75,14 @@ def T_qop_fockdisp2(tpath_join, pprint, plot):
     disp = (alpha.conj() * opA.A - alpha * opA).expm()
 
     aM2 = disp.A @ opA @ disp - opA
-    pprint(np.diag(aM2.mat))
+    dprint(np.diag(aM2.mat))
 
     aMA2 = disp.A @ opA.A @ disp - opA.A
-    pprint(np.diag(aMA2.mat))
+    dprint(np.diag(aMA2.mat))
     return
 
 
-def T_qop_gkp_norm(tpath_join, pprint, plot):
+def T_qop_gkp_norm(tpath_join, dprint, plot):
     """
     This test makes sure normalizations are right and that the Fourier transform
     of a GKP state is correct
@@ -90,7 +90,7 @@ def T_qop_gkp_norm(tpath_join, pprint, plot):
     D = 1 / 5
     bQ = qop_fock.basis_Q(half_width=32, N=32 ** 2)
     psi = qop_fock.psi_gkp("field", bN=bQ, D=D, mu=0)
-    pprint(psi.nR, psi.nC, psi.mat.shape)
+    dprint(psi.nR, psi.nC, psi.mat.shape)
     # the Fourier transform of a GKP is in the superposition of |0> and |1>
     psi_p2 = (
         fock.gkp(q=bQ.bP.p, D=D, mu=0) + fock.gkp(q=bQ.bP.p, D=D, mu=1)
@@ -107,7 +107,7 @@ def T_qop_gkp_norm(tpath_join, pprint, plot):
 
     axB = mplfigB(Nrows=3)
     psi_p, p = fock.q2p(psi_q, bQ.q, extend=True)
-    pprint(bQ.bP.p, p)
+    dprint(bQ.bP.p, p)
     dp = p[1] - p[0]
     axB.ax0.plot(p, dp * np.cumsum(abs(psi_p) ** 2))
     axB.ax1.semilogy(p, abs(psi_p))
@@ -127,7 +127,7 @@ def T_qop_gkp_norm(tpath_join, pprint, plot):
     axB.save(tpath_join("gkp_p"))
 
 
-def T_qop_gkp_norm2(tpath_join, pprint, plot):
+def T_qop_gkp_norm2(tpath_join, dprint, plot):
     """
     This test makes sure normalizations are right and that the Fourier transform
     of a GKP state is correct
@@ -135,7 +135,7 @@ def T_qop_gkp_norm2(tpath_join, pprint, plot):
     D = 1 / 5
     bQ = qop_fock.basis_Q(half_width=32, N=32 ** 2)
     psi = qop_fock.psi_gkp("field", bN=bQ, D=D, mu="r")
-    pprint(psi.nR, psi.nC, psi.mat.shape)
+    dprint(psi.nR, psi.nC, psi.mat.shape)
     # the Fourier transform of a GKP is in the superposition of |0> and |1>
     psi_p2 = (
         np.exp(np.pi / 4 * 1j)
@@ -154,7 +154,7 @@ def T_qop_gkp_norm2(tpath_join, pprint, plot):
 
     axB = mplfigB(Nrows=3)
     psi_p, p = fock.q2p(psi_q, bQ.q, extend=True)
-    pprint(bQ.bP.p, p)
+    dprint(bQ.bP.p, p)
     dp = p[1] - p[0]
     axB.ax0.plot(p, dp * np.cumsum(abs(psi_p) ** 2))
     axB.ax1.semilogy(p, abs(psi_p))
@@ -174,7 +174,7 @@ def T_qop_gkp_norm2(tpath_join, pprint, plot):
     axB.save(tpath_join("gkp_p"))
 
 
-def T_gkp_wigner(tpath_join, pprint, plot):
+def T_gkp_wigner(tpath_join, dprint, plot):
     D = 1 / 4
     for mu in [0, 1, "+", "-", "l", "r"]:
         bQ = qop_fock.basis_Q(N=4 * 1024)
@@ -186,7 +186,7 @@ def T_gkp_wigner(tpath_join, pprint, plot):
     return
 
 
-def T_gkp_wigner_span(tpath_join, pprint, plot):
+def T_gkp_wigner_span(tpath_join, dprint, plot):
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=300)
     F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
@@ -196,7 +196,7 @@ def T_gkp_wigner_span(tpath_join, pprint, plot):
     for idx, iD in enumerate(iDs):
         psi_gkp = F2Q.A @ qop_fock.psi_gkp("field", bN=bQ, D=1 / iD, mu=0)
 
-        pprint("iD", iD)
+        dprint("iD", iD)
         qop_fock.op_qp("field", bN=bF)
 
         axB = mplfigB(Ncols=2)
@@ -218,7 +218,7 @@ def T_gkp_wigner_span(tpath_join, pprint, plot):
     return
 
 
-def T_sqz_wigner(tpath_join, pprint, plot):
+def T_sqz_wigner(tpath_join, dprint, plot):
     D = 1 / 4
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=300)
@@ -233,14 +233,14 @@ def T_sqz_wigner(tpath_join, pprint, plot):
     axBall = mplfigB(Nrows=len(dbs), Ncols=2)
     for idx, db in enumerate(dbs):
         z = np.log(10 ** (db / 10.0)) / 2
-        pprint(db)
+        dprint(db)
 
         sqz_gen = z * op_a @ op_a
-        pprint("sqz:-----", sqz_gen.mat.real)
-        pprint("sqz:-----", (sqz_gen.A).mat.real)
-        pprint("sqz:-----", (sqz_gen.mat - (sqz_gen.A).mat).real)
+        dprint("sqz:-----", sqz_gen.mat.real)
+        dprint("sqz:-----", (sqz_gen.A).mat.real)
+        dprint("sqz:-----", (sqz_gen.mat - (sqz_gen.A).mat).real)
         sqz_gen = sqz_gen - (sqz_gen.A)
-        pprint("sqz:-----", sqz_gen.mat)
+        dprint("sqz:-----", sqz_gen.mat)
         sqz = sqz_gen.expm()
         psi_sqz = sqz @ psi
 
@@ -265,7 +265,7 @@ def T_sqz_wigner(tpath_join, pprint, plot):
     return
 
 
-def T_shear_wigner(tpath_join, pprint, plot):
+def T_shear_wigner(tpath_join, dprint, plot):
     D = 1 / 2
     bQ = qop_fock.basis_Q(N=1 * 1024)
     bF = qop_fock.basis_Fock(N=100)
@@ -282,7 +282,7 @@ def T_shear_wigner(tpath_join, pprint, plot):
     axBall = mplfigB(Nrows=len(dbs), Ncols=2)
     for idx, db in enumerate(dbs):
         z = 1j * np.log(10 ** (db / 10.0)) / 2
-        pprint(db, z)
+        dprint(db, z)
 
         sqz_gen = z * op_q @ op_q
         # sqz_gen = sqz_gen - sqz_gen.A
@@ -310,14 +310,14 @@ def T_shear_wigner(tpath_join, pprint, plot):
     return
 
 
-def T_shear_gkp_wigner(tpath_join, pprint, plot):
+def T_shear_gkp_wigner(tpath_join, dprint, plot):
     D = 1 / 4
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=300)
     F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
 
     psi = qop_fock.psi_gkp("field", bN=bQ, D=D, mu=0)
-    pprint("SUM", (psi @ psi.A).trace_other().mat)
+    dprint("SUM", (psi @ psi.A).trace_other().mat)
     psi = F2Q.A @ psi
 
     op_a = qop_fock.op_ladder_dn("field", bN=bF)
@@ -327,7 +327,7 @@ def T_shear_gkp_wigner(tpath_join, pprint, plot):
     axBall = mplfigB(Nrows=len(dbs), Ncols=2)
     for idx, db in enumerate(dbs):
         z = 1j * np.log(10 ** (db / 10.0)) / 2
-        pprint(db)
+        dprint(db)
 
         sqz_gen = z * op_q @ op_q
         sqz_gen = sqz_gen - sqz_gen.A
@@ -335,7 +335,7 @@ def T_shear_gkp_wigner(tpath_join, pprint, plot):
         psi_sqz = sqz @ psi
 
         qop_fock.op_qp("field", bN=bF)
-        pprint("SUM", (psi_sqz @ psi_sqz.A).trace_other().mat)
+        dprint("SUM", (psi_sqz @ psi_sqz.A).trace_other().mat)
 
         axB = mplfigB(Ncols=2)
         plot_wigner(axB.ax0_0, "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=15)
@@ -356,22 +356,22 @@ def T_shear_gkp_wigner(tpath_join, pprint, plot):
     return
 
 
-def T_basis_change(tpath_join, pprint, plot):
+def T_basis_change(tpath_join, dprint, plot):
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=300)
     F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
     I = F2Q.A @ F2Q
-    pprint(I.mat)
+    dprint(I.mat)
 
 
-def T_qop_gkp(tpath_join, pprint, plot):
+def T_qop_gkp(tpath_join, dprint, plot):
     bF = qop_fock.basis_Fock(N=30)
     bQ = qop_fock.basis_Q(half_width=30, N=2048)
     psi = qop_fock.psi_gkp("field", bN=bQ, D=4, mu=0)
-    pprint(psi.nR, psi.nC, psi.mat.shape)
+    dprint(psi.nR, psi.nC, psi.mat.shape)
 
     toQ = qop_fock.basis_change("field", bQ, bF)
-    pprint(toQ.nR, toQ.nC, toQ.mat.shape)
+    dprint(toQ.nR, toQ.nC, toQ.mat.shape)
 
     def plot_psi(psi, name=None, line=None):
         if psi.basis("field").bC.basis == "Fock":
