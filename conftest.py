@@ -16,3 +16,7 @@ from wavestate.pytest.fixtures import (  # noqa
     closefigs,
     capture,
 )
+
+from wavestate.pytest import (  # noqa
+    pytest_addoption,
+)

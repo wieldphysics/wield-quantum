@@ -317,7 +317,7 @@ def T_shear_gkp_wigner(tpath_join, dprint, plot):
     F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
 
     psi = qop_fock.psi_gkp("field", bN=bQ, D=D, mu=0)
-    dprint("SUM", (psi @ psi.A).trace_other().mat)
+    dprint("SUM", (psi @ psi.A).trace_except().mat)
     psi = F2Q.A @ psi
 
     op_a = qop_fock.op_ladder_dn("field", bN=bF)
@@ -335,7 +335,7 @@ def T_shear_gkp_wigner(tpath_join, dprint, plot):
         psi_sqz = sqz @ psi
 
         qop_fock.op_qp("field", bN=bF)
-        dprint("SUM", (psi_sqz @ psi_sqz.A).trace_other().mat)
+        dprint("SUM", (psi_sqz @ psi_sqz.A).trace_except().mat)
 
         axB = mplfigB(Ncols=2)
         plot_wigner(axB.ax0_0, "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=15)

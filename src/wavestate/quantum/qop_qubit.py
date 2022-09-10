@@ -48,5 +48,29 @@ def pauli_z(space, bQ=bQz):
     return qop.Operator(space, bQ, bQ, Mpauli_z)
 
 
+def pauli_up(space, bQ=bQz):
+    return qop.Operator(space, bQ, bQ, Mpauli_x + 1j*Mpauli_y)
+
+
+def pauli_dn(space, bQ=bQz):
+    return qop.Operator(space, bQ, bQ, Mpauli_x - 1j*Mpauli_y)
+
+
+def rho_p(space, bQ=bQz):
+    return qop.Operator(space, bQ, bQ, np.array([[0, 0], [0, 1]]))
+
+
+def rho_n(space, bQ=bQz):
+    return qop.Operator(space, bQ, bQ, np.array([[1, 0], [0, 0]]))
+
+
+def psi_p(space, bQ=bQz):
+    return qop.Operator(space, bQ, qop.bI, np.array([[1], [0]]))
+
+
+def psi_n(space, bQ=bQz):
+    return qop.Operator(space, bQ, qop.bI, np.array([[0], [1]]))
+
+
 def id(space, bQ=bQz):
     return qop.Operator(space, bQ, bQ, Meye2)

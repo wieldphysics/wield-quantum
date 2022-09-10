@@ -274,6 +274,6 @@ def qop2wigner(space, rho=None, psi=None, bQ=None, method="hermitian"):
         assert bC.N == bQ.N
 
     bR, bC = op.basis(space)
-    op2 = op.trace_other(space)
+    op2 = op.trace_except(space)
     w, p = fock.rhoq2wigner_fft(op2.mat, bC.q, method=method)
     return w, bC.q, p

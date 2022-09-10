@@ -59,17 +59,17 @@ def T_sqz_wigner_loss(tpath_join, dprint, plot):
 
         psi_sqz2 = psi_sqz @ qop_fock.psi_vacuum("b", bN=bFx)
         dprint("MAP1", psi_sqz2.space_map)
-        rho_sqz2 = (psi_sqz2 @ psi_sqz2.A).trace_other("a")
+        rho_sqz2 = (psi_sqz2 @ psi_sqz2.A).trace_except("a")
 
         psi_sqz3 = qop_fock.psi_vacuum("b", bN=bFx) @ psi_sqz
         dprint("MAP2", psi_sqz3.space_map)
-        rho_sqz3 = (psi_sqz3 @ psi_sqz3.A).trace_other("a")
+        rho_sqz3 = (psi_sqz3 @ psi_sqz3.A).trace_except("a")
         # psi_sqz2.space_order(['a', 'b'])
         # psi_sqz3.space_order(['a', 'b'])
         # dprint(psi_sqz2.mat.shape, psi_sqz3.mat.shape)
         # dprint('order_check', psi_sqz2.mat - psi_sqz3.mat)
 
-        rho_sqz = (psi_sqz @ psi_sqz.A).trace_other("a")
+        rho_sqz = (psi_sqz @ psi_sqz.A).trace_except("a")
         dprint("SQZ_diff", rho_sqz.mat.real)
         dprint("SQZ_diff2", rho_sqz2.mat.real)
         dprint("SQZ_diff3", rho_sqz2.mat.real)

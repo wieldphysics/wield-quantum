@@ -319,7 +319,7 @@ def T_sqz_wigner_loss(tpath_join, dprint, plot):
         sqz = sqz_gen.expm()
         psi_sqz = psi_a @ psi_b
         psi_sqz = sqz @ psi_sqz
-        rho_sqz = (psi_sqz @ psi_sqz.A).trace_other("a")
+        rho_sqz = (psi_sqz @ psi_sqz.A).trace_except("a")
         rho_sqz = F2Q @ rho_sqz @ F2Q.A
 
         axB = mplfigB(Ncols=2)
