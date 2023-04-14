@@ -8,14 +8,14 @@
 """
 """
 import numpy as np
-from wavestate.bunch import FrozenBunch
+from wield.bunch import FrozenBunch
 
 # asavefig.formats.png.use = True
 import itertools
 
-from wavestate.pytest import tpath_join, dprint, plot  # noqa: F401
+from wield.pytest import tpath_join, dprint, plot  # noqa: F401
 
-from wavestate.quantum import qop
+from wield.quantum import qop
 
 pauli_x = np.array([[0, 1], [1, 0]])
 pauli_y = np.array([[0, -1j], [1j, 0]])

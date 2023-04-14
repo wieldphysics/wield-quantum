@@ -9,20 +9,20 @@
 """
 import numpy as np
 
-from wavestate.quantum import ( # noqa
+from wield.quantum import ( # noqa
     qop,
     qop_fock,
     qop_qubit,
     fock
 )
 
-from wavestate.utilities.mpl import (  # noqa
+from wield.utilities.mpl import (  # noqa
     # generate_stacked_plot_ax,
     mplfigB,
     asavefig,
 )
 
-from wavestate.pytest.fixtures import (  # noqa: F401
+from wield.pytest.fixtures import (  # noqa: F401
     tpath_join,
     dprint,
     plot

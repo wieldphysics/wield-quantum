@@ -9,15 +9,15 @@
 """
 import numpy as np
 
-from wavestate.utilities.mpl import (  # noqa
+from wield.utilities.mpl import (  # noqa
     # generate_stacked_plot_ax,
     mplfigB,
     asavefig,
 )
 
-from wavestate.pytest import tpath_join, dprint, plot  # noqa: F401
+from wield.pytest import tpath_join, dprint, plot  # noqa: F401
 
-from wavestate.quantum import qop, qop_fock, qop_qubit, fock  # noqa
+from wield.quantum import qop, qop_fock, qop_qubit, fock  # noqa
 
 
 def T_qop_fockdisp(tpath_join, dprint, plot):

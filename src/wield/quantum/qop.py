@@ -13,7 +13,7 @@ from scipy.linalg import expm
 
 # asavefig.formats.png.use = True
 import collections
-from wavestate.bunch import FrozenBunch
+from wield.bunch import FrozenBunch
 import itertools
 
 import copy

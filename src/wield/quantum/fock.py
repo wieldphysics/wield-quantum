@@ -10,13 +10,13 @@
 import sys
 import numpy as np
 import math
-from wavestate import declarative
+from wield import declarative
 
 from numpy.polynomial.hermite import hermval
 from scipy.special import eval_genlaguerre
 
-from wavestate.utilities.np import matrix_stack, matrix_stack_id
-from wavestate.utilities.mpl import (
+from wield.utilities.np import matrix_stack, matrix_stack_id
+from wield.utilities.mpl import (
     # generate_stacked_plot_ax,
     mplfigB,
     asavefig,

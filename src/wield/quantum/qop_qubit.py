@@ -8,7 +8,7 @@
 """
 """
 import numpy as np
-from wavestate.bunch import FrozenBunch
+from wield.bunch import FrozenBunch
 
 from . import qop
 

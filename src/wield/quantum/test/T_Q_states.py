@@ -10,13 +10,13 @@
 import sys
 import numpy as np
 import math
-from wavestate import declarative
+from wield import declarative
 
 from numpy.polynomial.hermite import hermval
 from scipy.special import eval_genlaguerre
 
-from wavestate.utilities.np import matrix_stack, matrix_stack_id
-from wavestate.utilities.mpl import (
+from wield.utilities.np import matrix_stack, matrix_stack_id
+from wield.utilities.mpl import (
     # generate_stacked_plot_ax,
     mplfigB,
     asavefig,
@@ -24,10 +24,10 @@ from wavestate.utilities.mpl import (
 
 # asavefig.formats.png.use = True
 
-from wavestate.pytest import tpath_join, dprint, plot  # noqa: F401
+from wield.pytest import tpath_join, dprint, plot  # noqa: F401
 
 from scipy.linalg import expm
-from wavestate.quantum import fock
+from wield.quantum import fock
 
 c_m_s = 299792458
 
