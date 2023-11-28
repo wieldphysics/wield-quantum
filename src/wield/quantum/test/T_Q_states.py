@@ -121,7 +121,7 @@ def T_wigner(tpath_join, dprint, plot):
             interpolation="nearest",
         )
         dprint(minmax)
-        axB.ax0.grid(b=False)
+        axB.ax0.grid(visible=False)
         # axB.ax0.set_xlim(-10, 10)
         # axB.ax0.set_ylim(-10, 10)
         axB.save(tpath_join("wigner_{}".format(method)))
@@ -202,7 +202,7 @@ def T_focksqz(tpath_join, dprint, plot):
             interpolation="nearest",
         )
         dprint(minmax)
-        axB.ax0.grid(b=False)
+        axB.ax0.grid(visible=False)
         axB.ax0.set_xlim(-10, 10)
         axB.ax0.set_ylim(-10, 10)
         axB.ax0.axvline(1)

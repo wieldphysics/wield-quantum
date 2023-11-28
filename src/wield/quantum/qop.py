@@ -81,7 +81,7 @@ class Operator(object):
         return self.space_map.keys()
 
     @classmethod
-    def bare(cls, value):
+    def bare(cls, value=1):
         self = cls.__new__(cls)
         self._init_empty(value=value)
         return self

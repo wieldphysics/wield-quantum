@@ -202,7 +202,7 @@ def T_gkp_wigner_span(tpath_join, dprint, plot):
         axB = mplfigB(Ncols=2)
         plot_wigner(axB.ax0_0, "field", psi=F2Q @ psi_gkp, bQ=bQ, lims=10)
         axB.ax0_1.stem(
-            abs(psi_gkp.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
+            abs(psi_gkp.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axB.ax0_1.set_xscale("log")
         axB.save(tpath_join("wigner_gkp_{:.0f}".format(iD).replace(".", "p")))
@@ -211,7 +211,7 @@ def T_gkp_wigner_span(tpath_join, dprint, plot):
         )
         axall = axBall["ax{}_1".format(idx)]
         axall.stem(
-            abs(psi_gkp.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
+            abs(psi_gkp.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axall.set_xscale("log")
     axBall.save(tpath_join("wigner_gkp"))
@@ -249,7 +249,7 @@ def T_sqz_wigner(tpath_join, dprint, plot):
         axB = mplfigB(Ncols=2)
         plot_wigner(axB.ax0_0, "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=10)
         axB.ax0_1.stem(
-            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
+            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axB.ax0_1.set_xscale("log")
         axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
@@ -258,7 +258,7 @@ def T_sqz_wigner(tpath_join, dprint, plot):
         )
         axall = axBall["ax{}_1".format(idx)]
         axall.stem(
-            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
+            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axall.set_xscale("log")
     axBall.save(tpath_join("wigner_sqz".format(-db)))
@@ -294,7 +294,7 @@ def T_shear_wigner(tpath_join, dprint, plot):
         axB = mplfigB(Ncols=2)
         plot_wigner(axB.ax0_0, "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=5)
         axB.ax0_1.stem(
-            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
+            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axB.ax0_1.set_xscale("log")
         axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
@@ -303,7 +303,7 @@ def T_shear_wigner(tpath_join, dprint, plot):
         )
         axall = axBall["ax{}_1".format(idx)]
         axall.stem(
-            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
+            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axall.set_xscale("log")
     axBall.save(tpath_join("wigner_sqz".format(-db)))
@@ -340,7 +340,7 @@ def T_shear_gkp_wigner(tpath_join, dprint, plot):
         axB = mplfigB(Ncols=2)
         plot_wigner(axB.ax0_0, "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=15)
         axB.ax0_1.stem(
-            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
+            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axB.ax0_1.set_xscale("log")
         axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
@@ -349,7 +349,7 @@ def T_shear_gkp_wigner(tpath_join, dprint, plot):
         )
         axall = axBall["ax{}_1".format(idx)]
         axall.stem(
-            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
+            abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axall.set_xscale("log")
     axBall.save(tpath_join("wigner_sqz".format(-db)))
@@ -406,7 +406,7 @@ def plot_wigner(ax, *args, **kwargs):
         vmax=minmax,
         interpolation="nearest",
     )
-    ax.grid(b=False)
+    ax.grid(visible=False)
     if lims is not None:
         ax.set_xlim(-lims, lims)
         ax.set_ylim(-lims, lims)

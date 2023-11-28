@@ -133,7 +133,7 @@ def plot_wigner(ax, *args, **kwargs):
         vmax=minmax,
         interpolation="nearest",
     )
-    ax.grid(b=False)
+    ax.grid(visible=False)
     if lims is not None:
         ax.set_xlim(-lims, lims)
         ax.set_ylim(-lims, lims)
