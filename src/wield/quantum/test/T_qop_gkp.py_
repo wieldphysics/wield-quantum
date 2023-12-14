@@ -15,12 +15,12 @@ from wield.utilities.mpl import (  # noqa
     asavefig,
 )
 
-from wield.pytest import tpath_join, dprint, plot  # noqa: F401
+from wield.pytest import tjoin, dprint, plot  # noqa: F401
 
 from wield.quantum import qop, qop_fock, qop_qubit, fock  # noqa
 
 
-def T_sqz_wigner(tpath_join, dprint, plot):
+def T_sqz_wigner(tjoin, dprint, plot):
     D = 1 / 4
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=300)
@@ -54,7 +54,7 @@ def T_sqz_wigner(tpath_join, dprint, plot):
             abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
         )
         axB.ax0_1.set_xscale("log")
-        axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
+        axB.save(tjoin("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
         plot_wigner(
             axBall["ax{}_0".format(idx)], "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=10
         )
@@ -63,11 +63,11 @@ def T_sqz_wigner(tpath_join, dprint, plot):
             abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
         )
         axall.set_xscale("log")
-    axBall.save(tpath_join("wigner_sqz".format(-db)))
+    axBall.save(tjoin("wigner_sqz".format(-db)))
     return
 
 
-def T_sqz_disp(tpath_join, dprint, plot):
+def T_sqz_disp(tjoin, dprint, plot):
     D = 1 / 4
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=300)
@@ -101,7 +101,7 @@ def T_sqz_disp(tpath_join, dprint, plot):
             abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
         )
         axB.ax0_1.set_xscale("log")
-        axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
+        axB.save(tjoin("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
         plot_wigner(
             axBall["ax{}_0".format(idx)], "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=10
         )
@@ -110,11 +110,11 @@ def T_sqz_disp(tpath_join, dprint, plot):
             abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", use_line_collection=True
         )
         axall.set_xscale("log")
-    axBall.save(tpath_join("wigner_sqz".format(-db)))
+    axBall.save(tjoin("wigner_sqz".format(-db)))
     return
 
 
-def T_sqz_wow(tpath_join, dprint, plot):
+def T_sqz_wow(tjoin, dprint, plot):
     bQ = qop_fock.basis_Q(N=4 * 1024)
     bF = qop_fock.basis_Fock(N=300)
     F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
@@ -147,7 +147,7 @@ def T_sqz_wow(tpath_join, dprint, plot):
         pdf_Q = abs((F2Q @ psi_sqz).mat[:, 0]) ** 2
         cdf_Q = np.cumsum(pdf_Q[::-1])[::-1]
         axB.ax0_1.plot(bQ.q, pdf_Q)
-        axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
+        axB.save(tjoin("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
         plot_wigner(
             axBall["ax{}_0".format(idx)], "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=4
         )
@@ -164,11 +164,11 @@ def T_sqz_wow(tpath_join, dprint, plot):
         axall.axvline(Q, color="red")
         dprint("Qsigma", Q / 2 ** 0.5)
         axall.set_xlim(-1, 1)
-    axBall.save(tpath_join("wigner_sqz".format(-db)))
+    axBall.save(tjoin("wigner_sqz".format(-db)))
     return
 
 
-def T_fock0_wow(tpath_join, dprint, plot):
+def T_fock0_wow(tjoin, dprint, plot):
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=100)
     F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
@@ -199,7 +199,7 @@ def T_fock0_wow(tpath_join, dprint, plot):
             np.diagonal(rho_disp.mat), markerfmt="C0,", use_line_collection=True
         )
         axB.ax0_1.set_xscale("log")
-        axB.save(tpath_join("wigner_disp_{:.1f}".format(disp).replace(".", "p")))
+        axB.save(tjoin("wigner_disp_{:.1f}".format(disp).replace(".", "p")))
         plot_wigner(
             axBall["ax{}_0".format(idx)],
             "field",
@@ -225,11 +225,11 @@ def T_fock0_wow(tpath_join, dprint, plot):
         axall.set_xlabel("Photon number observed")
         axall.axvspan(0, 0.6, alpha=0.2, color="black")
         axall.set_xlim(0, 5)
-    axBall.save(tpath_join("wigner_disp"))
+    axBall.save(tjoin("wigner_disp"))
     return
 
 
-def T_fock10_wow(tpath_join, dprint, plot):
+def T_fock10_wow(tjoin, dprint, plot):
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=100)
     F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
@@ -260,7 +260,7 @@ def T_fock10_wow(tpath_join, dprint, plot):
             np.diagonal(rho_disp.mat), markerfmt="C0,", use_line_collection=True
         )
         axB.ax0_1.set_xscale("log")
-        axB.save(tpath_join("wigner_disp_{:.1f}".format(disp).replace(".", "p")))
+        axB.save(tjoin("wigner_disp_{:.1f}".format(disp).replace(".", "p")))
         plot_wigner(
             axBall["ax{}_0".format(idx)],
             "field",
@@ -286,11 +286,11 @@ def T_fock10_wow(tpath_join, dprint, plot):
         axall.set_xlabel("Photon number observed")
         axall.axvspan(0, 10.6, alpha=0.2, color="black")
         axall.set_xlim(0, 14)
-    axBall.save(tpath_join("wigner_disp"))
+    axBall.save(tjoin("wigner_disp"))
     return
 
 
-def T_sqz_wigner_loss(tpath_join, dprint, plot):
+def T_sqz_wigner_loss(tjoin, dprint, plot):
     L = 0.5
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=10)
@@ -326,12 +326,12 @@ def T_sqz_wigner_loss(tpath_join, dprint, plot):
         plot_wigner(axB.ax0_0, "a", rho=rho_sqz, bQ=bQ, lims=10)
         axB.ax0_1.stem(abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,")
         axB.ax0_1.set_xscale("log")
-        axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
+        axB.save(tjoin("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
         plot_wigner(axBall["ax{}_0".format(idx)], "a", rho=rho_sqz, bQ=bQ, lims=10)
         axall = axBall["ax{}_1".format(idx)]
         axall.stem(abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,")
         axall.set_xscale("log")
-    axBall.save(tpath_join("wigner_sqz".format(-db)))
+    axBall.save(tjoin("wigner_sqz".format(-db)))
     return
 
 

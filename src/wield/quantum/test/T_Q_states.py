@@ -24,7 +24,7 @@ from wield.utilities.mpl import (
 
 # asavefig.formats.png.use = True
 
-from wield.pytest import tpath_join, dprint, plot  # noqa: F401
+from wield.pytest import tjoin, dprint, plot  # noqa: F401
 
 from scipy.linalg import expm
 from wield.quantum import fock
@@ -32,7 +32,7 @@ from wield.quantum import fock
 c_m_s = 299792458
 
 
-def T_fock(tpath_join, dprint, plot):
+def T_fock(plot):
     N = 100
     q = fock.linspace_clopen(N, N ** 2 / 2)
     psi0 = fock.q_fock(n=0, q=q)
@@ -55,7 +55,7 @@ def T_fock(tpath_join, dprint, plot):
 
     # axB_ = mplfigB()
     # axB_.ax0.plot(psi0[:len(psi0)//2-1:-1] - psi0[:len(psi0)//2])
-    # axB_.save(tpath_join('test'))
+    # axB_.save(tjoin('test'))
     axB.ax0.plot(q, dq * np.cumsum(abs(psi0) ** 2))
     axB.ax0.plot(q, dq * np.cumsum(abs(psi1) ** 2))
     axB.ax0.plot(q, dq * np.cumsum(abs(psi2) ** 2))
@@ -74,7 +74,7 @@ def T_fock(tpath_join, dprint, plot):
     axB.ax2.plot(q, fock.angle(psi3))
     axB.ax2.set_xlim(-10, 10)
 
-    axB.save(tpath_join("fock_psi"))
+    axB.save(tjoin("fock_psi"))
 
     psi0_p, p = fock.q2p(psi0, q)
     psi1_p, p = fock.q2p(psi1, q)
@@ -100,11 +100,11 @@ def T_fock(tpath_join, dprint, plot):
     axB.ax2.plot(p, fock.angle(psi2_p))
     axB.ax2.plot(p, fock.angle(psi3_p))
     axB.ax2.set_xlim(-10, 10)
-    axB.save(tpath_join("fock_psi_p"))
+    axB.save(tjoin("fock_psi_p"))
     return
 
 
-def T_wigner(tpath_join, dprint, plot):
+def T_wigner(plot):
     q = fock.linspace_clopen(30, 1024)
     psi0 = fock.q_fock(n=2, q=q)
     for method in ["full", "half", "hermitian"]:
@@ -124,11 +124,11 @@ def T_wigner(tpath_join, dprint, plot):
         axB.ax0.grid(visible=False)
         # axB.ax0.set_xlim(-10, 10)
         # axB.ax0.set_ylim(-10, 10)
-        axB.save(tpath_join("wigner_{}".format(method)))
+        axB.save(tjoin("wigner_{}".format(method)))
     return
 
 
-def T_fockdisp(tpath_join, dprint, plot):
+def T_fockdisp(plot):
     n = 50
     q = fock.linspace_clopen(10, 2048)
     dq = q[1] - q[0]
@@ -146,7 +146,7 @@ def T_fockdisp(tpath_join, dprint, plot):
         if line is not None:
             axB.ax0.axvline(line)
         if name is not None:
-            axB.save(tpath_join(name))
+            axB.save(tjoin(name))
 
     plot_psi(psi, "vac")
 
@@ -179,7 +179,7 @@ def T_fockdisp(tpath_join, dprint, plot):
     return
 
 
-def T_focksqz(tpath_join, dprint, plot):
+def T_focksqz(plot):
     n = 100
     q = fock.linspace_clopen(50, 2048)
     rho = np.zeros((n, n), dtype=complex)
@@ -207,7 +207,7 @@ def T_focksqz(tpath_join, dprint, plot):
         axB.ax0.set_ylim(-10, 10)
         axB.ax0.axvline(1)
         if name is not None:
-            axB.save(tpath_join(name))
+            axB.save(tjoin(name))
 
     plot_rho_wigner(rho, "wigner_vac")
 

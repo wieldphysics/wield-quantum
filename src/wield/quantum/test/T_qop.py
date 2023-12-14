@@ -13,7 +13,7 @@ from wield.bunch import FrozenBunch
 # asavefig.formats.png.use = True
 import itertools
 
-from wield.pytest import tpath_join, dprint, plot  # noqa: F401
+from wield.pytest import tjoin, dprint, plot  # noqa: F401
 
 from wield.quantum import qop
 
@@ -23,7 +23,7 @@ pauli_z = np.array([[1, 0], [0, -1]])
 eye2 = np.array([[1, 0], [0, 1]])
 
 
-def T_qop1(tpath_join, dprint, plot):
+def T_qop1(plot):
 
     basis = FrozenBunch(
         type="qubit",
@@ -59,7 +59,7 @@ def T_qop1(tpath_join, dprint, plot):
     return
 
 
-def T_qop2(tpath_join, dprint, plot):
+def T_qop2(plot):
     op = qop.Operator.bare()
     dprint(op.mat)
 
@@ -78,7 +78,7 @@ def T_qop2(tpath_join, dprint, plot):
     return
 
 
-def T_qop3A(tpath_join, dprint, plot):
+def T_qop3A(plot):
     """
     test multiplication of qubit spaces. This test does not incorporate a common space
     """
@@ -104,7 +104,7 @@ def T_qop3A(tpath_join, dprint, plot):
     return
 
 
-def T_qop3B(tpath_join, dprint, plot):
+def T_qop3B(plot):
     """
     test multiplication of qubit spaces. This test does incorporates a common space
     """
@@ -131,7 +131,7 @@ def T_qop3B(tpath_join, dprint, plot):
     return
 
 
-def T_qop_ordering(tpath_join, dprint, plot):
+def T_qop_ordering(plot):
     """
     test multiplication of qubit spaces. This test does incorporates a common space
     """

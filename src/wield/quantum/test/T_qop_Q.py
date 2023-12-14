@@ -15,12 +15,12 @@ from wield.utilities.mpl import (  # noqa
     asavefig,
 )
 
-from wield.pytest import tpath_join, dprint, plot  # noqa: F401
+from wield.pytest import tjoin, dprint, plot  # noqa: F401
 
 from wield.quantum import qop, qop_fock, qop_qubit, fock  # noqa
 
 
-def T_qop_fockdisp(tpath_join, dprint, plot):
+def T_qop_fockdisp(plot):
     bF = qop_fock.basis_Fock(N=30)
     bQ = qop_fock.basis_Q(half_width=30, N=2048)
     psi = qop_fock.psi_vacuum("field", bN=bF)
@@ -39,7 +39,7 @@ def T_qop_fockdisp(tpath_join, dprint, plot):
         if line is not None:
             axB.ax0.axvline(line)
         if name is not None:
-            axB.save(tpath_join(name))
+            axB.save(tjoin(name))
 
     plot_psi(psi, "vac")
 
@@ -67,7 +67,7 @@ def T_qop_fockdisp(tpath_join, dprint, plot):
     return
 
 
-def T_qop_fockdisp2(tpath_join, dprint, plot):
+def T_qop_fockdisp2(plot):
     bF = qop_fock.basis_Fock(N=50)
     opA = qop_fock.op_ladder_dn("field", bN=bF)
 
@@ -82,7 +82,7 @@ def T_qop_fockdisp2(tpath_join, dprint, plot):
     return
 
 
-def T_qop_gkp_norm(tpath_join, dprint, plot):
+def T_qop_gkp_norm(plot):
     """
     This test makes sure normalizations are right and that the Fourier transform
     of a GKP state is correct
@@ -103,7 +103,7 @@ def T_qop_gkp_norm(tpath_join, dprint, plot):
     axB.ax1.set_ylim(1e-10, np.max(abs(psi_q)))
     axB.ax2.plot(bQ.q, fock.angle(psi_q))
 
-    axB.save(tpath_join("gkp_q"))
+    axB.save(tjoin("gkp_q"))
 
     axB = mplfigB(Nrows=3)
     psi_p, p = fock.q2p(psi_q, bQ.q, extend=True)
@@ -124,10 +124,10 @@ def T_qop_gkp_norm(tpath_join, dprint, plot):
     # axB.ax1.set_ylim(1e-10, np.max(abs(psi_q)))
     # axB.ax2.plot(bQ.q, fock.angle(psi_q))
 
-    axB.save(tpath_join("gkp_p"))
+    axB.save(tjoin("gkp_p"))
 
 
-def T_qop_gkp_norm2(tpath_join, dprint, plot):
+def T_qop_gkp_norm2(plot):
     """
     This test makes sure normalizations are right and that the Fourier transform
     of a GKP state is correct
@@ -150,7 +150,7 @@ def T_qop_gkp_norm2(tpath_join, dprint, plot):
     axB.ax1.set_ylim(1e-10, np.max(abs(psi_q)))
     axB.ax2.plot(bQ.q, fock.angle(psi_q))
 
-    axB.save(tpath_join("gkp_q"))
+    axB.save(tjoin("gkp_q"))
 
     axB = mplfigB(Nrows=3)
     psi_p, p = fock.q2p(psi_q, bQ.q, extend=True)
@@ -171,10 +171,10 @@ def T_qop_gkp_norm2(tpath_join, dprint, plot):
     # axB.ax1.set_ylim(1e-10, np.max(abs(psi_q)))
     # axB.ax2.plot(bQ.q, fock.angle(psi_q))
 
-    axB.save(tpath_join("gkp_p"))
+    axB.save(tjoin("gkp_p"))
 
 
-def T_gkp_wigner(tpath_join, dprint, plot):
+def T_gkp_wigner(plot):
     D = 1 / 4
     for mu in [0, 1, "+", "-", "l", "r"]:
         bQ = qop_fock.basis_Q(N=4 * 1024)
@@ -182,11 +182,11 @@ def T_gkp_wigner(tpath_join, dprint, plot):
         # the Fourier transform of a GKP is in the superposition of |0> and |1>
         axB = mplfigB()
         plot_wigner(axB.ax0, "field", rho=rho, bQ=bQ, lims=10)
-        axB.save(tpath_join("wigner_{}".format(mu)))
+        axB.save(tjoin("wigner_{}".format(mu)))
     return
 
 
-def T_gkp_wigner_span(tpath_join, dprint, plot):
+def T_gkp_wigner_span(plot):
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=300)
     F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
@@ -205,7 +205,7 @@ def T_gkp_wigner_span(tpath_join, dprint, plot):
             abs(psi_gkp.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axB.ax0_1.set_xscale("log")
-        axB.save(tpath_join("wigner_gkp_{:.0f}".format(iD).replace(".", "p")))
+        axB.save(tjoin("wigner_gkp_{:.0f}".format(iD).replace(".", "p")))
         plot_wigner(
             axBall["ax{}_0".format(idx)], "field", psi=F2Q @ psi_gkp, bQ=bQ, lims=10
         )
@@ -214,11 +214,11 @@ def T_gkp_wigner_span(tpath_join, dprint, plot):
             abs(psi_gkp.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axall.set_xscale("log")
-    axBall.save(tpath_join("wigner_gkp"))
+    axBall.save(tjoin("wigner_gkp"))
     return
 
 
-def T_sqz_wigner(tpath_join, dprint, plot):
+def T_sqz_wigner(plot):
     D = 1 / 4
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=300)
@@ -252,7 +252,7 @@ def T_sqz_wigner(tpath_join, dprint, plot):
             abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axB.ax0_1.set_xscale("log")
-        axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
+        axB.save(tjoin("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
         plot_wigner(
             axBall["ax{}_0".format(idx)], "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=10
         )
@@ -261,11 +261,11 @@ def T_sqz_wigner(tpath_join, dprint, plot):
             abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axall.set_xscale("log")
-    axBall.save(tpath_join("wigner_sqz".format(-db)))
+    axBall.save(tjoin("wigner_sqz".format(-db)))
     return
 
 
-def T_shear_wigner(tpath_join, dprint, plot):
+def T_shear_wigner(plot):
     D = 1 / 2
     bQ = qop_fock.basis_Q(N=1 * 1024)
     bF = qop_fock.basis_Fock(N=100)
@@ -297,7 +297,7 @@ def T_shear_wigner(tpath_join, dprint, plot):
             abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axB.ax0_1.set_xscale("log")
-        axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
+        axB.save(tjoin("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
         plot_wigner(
             axBall["ax{}_0".format(idx)], "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=5
         )
@@ -306,11 +306,11 @@ def T_shear_wigner(tpath_join, dprint, plot):
             abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axall.set_xscale("log")
-    axBall.save(tpath_join("wigner_sqz".format(-db)))
+    axBall.save(tjoin("wigner_sqz".format(-db)))
     return
 
 
-def T_shear_gkp_wigner(tpath_join, dprint, plot):
+def T_shear_gkp_wigner(plot):
     D = 1 / 4
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=300)
@@ -343,7 +343,7 @@ def T_shear_gkp_wigner(tpath_join, dprint, plot):
             abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axB.ax0_1.set_xscale("log")
-        axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
+        axB.save(tjoin("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
         plot_wigner(
             axBall["ax{}_0".format(idx)], "field", psi=F2Q @ psi_sqz, bQ=bQ, lims=15
         )
@@ -352,11 +352,11 @@ def T_shear_gkp_wigner(tpath_join, dprint, plot):
             abs(psi_sqz.mat[:, 0]) ** 2, markerfmt="C0,", 
         )
         axall.set_xscale("log")
-    axBall.save(tpath_join("wigner_sqz".format(-db)))
+    axBall.save(tjoin("wigner_sqz".format(-db)))
     return
 
 
-def T_basis_change(tpath_join, dprint, plot):
+def T_basis_change(plot):
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=300)
     F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
@@ -364,7 +364,7 @@ def T_basis_change(tpath_join, dprint, plot):
     dprint(I.mat)
 
 
-def T_qop_gkp(tpath_join, dprint, plot):
+def T_qop_gkp(plot):
     bF = qop_fock.basis_Fock(N=30)
     bQ = qop_fock.basis_Q(half_width=30, N=2048)
     psi = qop_fock.psi_gkp("field", bN=bQ, D=4, mu=0)
@@ -387,7 +387,7 @@ def T_qop_gkp(tpath_join, dprint, plot):
         if line is not None:
             axB.ax0.axvline(line)
         if name is not None:
-            axB.save(tpath_join(name))
+            axB.save(tjoin(name))
 
     plot_psi(psi, "gkp")
     return

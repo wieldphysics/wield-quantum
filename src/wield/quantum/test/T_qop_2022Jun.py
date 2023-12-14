@@ -23,7 +23,7 @@ from wield.utilities.mpl import (  # noqa
 )
 
 from wield.pytest.fixtures import (  # noqa: F401
-    tpath_join,
+    tjoin,
     dprint,
     plot
 )
@@ -42,7 +42,7 @@ def sum_many(mats, eye):
     return m
 
 
-def T_atom_optics_bits(tpath_join, dprint, plot):
+def T_atom_optics_bits(plot):
     L = 0.5
 
     bF = qop_fock.basis_Fock(N=10)
@@ -83,7 +83,7 @@ def T_atom_optics_bits(tpath_join, dprint, plot):
     return
 
 
-def T_atom_optics_bits2(tpath_join, dprint, plot):
+def T_atom_optics_bits2(plot):
     L = 0.5
 
     bF = qop_fock.basis_Fock(N=10)

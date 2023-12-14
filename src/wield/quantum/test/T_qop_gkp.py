@@ -18,13 +18,13 @@ from wield.utilities.mpl import (  # noqa
 )
 
 from wield.pytest.fixtures import (  # noqa: F401
-    tpath_join,
+    tjoin,
     dprint,
     plot
 )
 
 
-def T_sqz_wigner_loss(tpath_join, dprint, plot):
+def T_sqz_wigner_loss(plot):
     L = 0.5
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=10)
@@ -83,16 +83,16 @@ def T_sqz_wigner_loss(tpath_join, dprint, plot):
         plot_wigner(axB.ax0_0, "a", rho=rho_sqz, bQ=bQ, lims=10)
         # axB.ax0_1.stem(abs(psi_sqz.mat[:, 0])**2, markerfmt='C0,')
         axB.ax0_1.set_xscale("log")
-        axB.save(tpath_join("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
+        axB.save(tjoin("wigner_sqz_{:.1f}db".format(-db).replace(".", "p")))
         plot_wigner(axBall["ax{}_0".format(idx)], "a", rho=rho_sqz, bQ=bQ, lims=10)
         axall = axBall["ax{}_1".format(idx)]
         # axall.stem(abs(psi_sqz.mat[:, 0])**2, markerfmt='C0,')
         axall.set_xscale("log")
-    axBall.save(tpath_join("wigner_sqz".format(-db)))
+    axBall.save(tjoin("wigner_sqz".format(-db)))
     return
 
 
-def T_gkp_wigner_loss(tpath_join, dprint, plot):
+def T_gkp_wigner_loss(plot):
     bQ = qop_fock.basis_Q(N=2 * 1024)
     bF = qop_fock.basis_Fock(N=300)
     F2Q = qop_fock.basis_change("field", bC=bF, bR=bQ)
@@ -109,14 +109,14 @@ def T_gkp_wigner_loss(tpath_join, dprint, plot):
         plot_wigner(axB.ax0_0, "field", psi=F2Q @ psi_gkp, bQ=bQ, lims=10)
         axB.ax0_1.stem(abs(psi_gkp.mat[:, 0]) ** 2, markerfmt="C0,")
         axB.ax0_1.set_xscale("log")
-        axB.save(tpath_join("wigner_gkp_{:.0f}".format(iD).replace(".", "p")))
+        axB.save(tjoin("wigner_gkp_{:.0f}".format(iD).replace(".", "p")))
         plot_wigner(
             axBall["ax{}_0".format(idx)], "field", psi=F2Q @ psi_gkp, bQ=bQ, lims=10
         )
         axall = axBall["ax{}_1".format(idx)]
         axall.stem(abs(psi_gkp.mat[:, 0]) ** 2, markerfmt="C0,")
         axall.set_xscale("log")
-    axBall.save(tpath_join("wigner_gkp"))
+    axBall.save(tjoin("wigner_gkp"))
     return
 
 
